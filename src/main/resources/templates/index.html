@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f2f6fc">
+    <meta name="description" content="A Spring Security social login demo with GitHub, Google, Facebook, and Apple.">
+    <title>Social Login Lab</title>
+    <link rel="stylesheet" th:href="@{/assets/app.css}">
+</head>
+<body>
+<main class="page-frame">
+    <section class="login-shell" aria-label="Social login demo">
+        <div class="story-panel">
+            <header class="brand">
+                <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+                <span>Social Login Lab</span>
+            </header>
+
+            <div class="story-copy">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> SOCIAL SIGN-IN</p>
+                <h1>One sign-in.<br> A session owned by your app.</h1>
+                <p class="intro">A provider confirms your identity. Spring Security handles the OAuth callback and signs you into this site.</p>
+            </div>
+
+            <section class="flow" aria-labelledby="flow-title">
+                <div class="flow-heading">
+                    <h2 id="flow-title">The sign-in path</h2>
+                    <span>3 steps</span>
+                </div>
+                <ol class="flow-list">
+                    <li class="flow-step">
+                        <span class="step-number">01</span>
+                        <span class="step-copy"><strong>Provider authorization</strong><span>You approve the sign-in request.</span></span>
+                        <span class="step-state" aria-hidden="true">↗</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="step-number">02</span>
+                        <span class="step-copy"><strong>Spring Security callback</strong><span>Spring validates the response and loads your profile.</span></span>
+                        <span class="step-state" aria-hidden="true">✓</span>
+                    </li>
+                    <li class="flow-step">
+                        <span class="step-number">03</span>
+                        <span class="step-copy"><strong>Application session</strong><span>Your browser returns with a local session.</span></span>
+                        <span class="step-state" aria-hidden="true">●</span>
+                    </li>
+                </ol>
+            </section>
+
+            <footer class="story-footer">
+                <span class="security-mark" aria-hidden="true">✓</span>
+                <p>Your password stays with your provider.<br><span>This demo never asks you to enter it here.</span></p>
+            </footer>
+        </div>
+
+        <section class="action-panel" aria-labelledby="action-title">
+            <header class="brand mobile-brand">
+                <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+                <span>Social Login Lab</span>
+            </header>
+            <div class="panel-topline">
+                <span class="provider-label"><span class="provider-dot"></span> SIGN-IN OPTIONS</span>
+                <span class="demo-label">DEMO</span>
+            </div>
+
+            <div class="action-content" th:if="${!page.authenticated}">
+                <div class="provider-emblem" aria-hidden="true">S</div>
+                <p class="eyebrow panel-eyebrow">OAUTH 2.0 LOGIN</p>
+                <h2 id="action-title">Sign in to the demo</h2>
+                <p class="panel-description">Choose an account provider. Spring Security manages the authorization request and this app’s session.</p>
+
+                <div class="error-message" role="alert" aria-live="polite" th:if="${page.loginFailed}">
+                    <span class="error-icon" aria-hidden="true">!</span>
+                    <span><strong>Sign-in could not be completed.</strong><br>Please try again. No provider details are shown here.</span>
+                </div>
+
+                <div class="provider-list" th:if="${!#lists.isEmpty(page.providers)}">
+                    <a class="provider-button" th:each="provider : ${page.providers}"
+                       th:href="@{/oauth2/authorization/{id}(id=${provider.id})}">
+                        <span class="provider-initial" aria-hidden="true" th:text="${#strings.substring(provider.name, 0, 1)}">G</span>
+                        <span th:text="'Continue with ' + ${provider.name}">Continue with GitHub</span>
+                        <span class="button-arrow" aria-hidden="true">→</span>
+                    </a>
+                </div>
+                <p class="setup-note" th:if="${#lists.isEmpty(page.providers)}">No providers are configured yet. Add a client ID and secret to your local environment, then restart the app.</p>
+
+                <p class="privacy-note"><span aria-hidden="true">⌑</span> Your password is never shared with this demo.</p>
+            </div>
+
+            <div class="action-content signed-in" th:if="${page.authenticated}">
+                <div class="signed-in-mark" aria-hidden="true">✓</div>
+                <p class="eyebrow panel-eyebrow">SESSION ACTIVE</p>
+                <h2 id="action-title">You’re signed in</h2>
+                <p class="panel-description">Spring Security has established a session for this browser.</p>
+
+                <div class="profile-card">
+                    <img class="avatar" th:if="${page.profile.avatarUrl != null}" th:src="${page.profile.avatarUrl}" alt="">
+                    <span class="avatar avatar-fallback" th:unless="${page.profile.avatarUrl != null}" aria-hidden="true" th:text="${#strings.substring(page.profile.provider, 0, 1)}">G</span>
+                    <div class="profile-copy">
+                        <strong th:text="${page.profile.displayName}">Octo Cat</strong>
+                        <span th:text="'Signed in with ' + ${page.profile.provider}">Signed in with GitHub</span>
+                    </div>
+                </div>
+
+                <form class="logout-form" th:action="@{/logout}" method="post">
+                    <button class="logout-button" type="submit">Sign out of this demo</button>
+                </form>
+                <p class="privacy-note"><span aria-hidden="true">⌑</span> Signing out clears this app’s session.</p>
+            </div>
+
+            <div class="panel-bottom">
+                <span>SPRING SECURITY</span>
+                <span class="bottom-divider"></span>
+                <span>OAUTH2 LOGIN</span>
+            </div>
+        </section>
+    </section>
+    <p class="page-caption">A small, inspectable example of browser-based social login.</p>
+</main>
+</body>
+</html>
