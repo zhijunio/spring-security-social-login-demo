@@ -1,11 +1,12 @@
 # Spring Security 社交登录示例
 
 [![Java 25](https://img.shields.io/badge/Java-25-blue)](https://openjdk.org/projects/jdk/25/)
-[![Maven 3.10.0](https://img.shields.io/badge/Maven-3.10.0-C71A36)](https://maven.apache.org/)
 [![Spring Boot 4.1.2](https://img.shields.io/badge/Spring%20Boot-4.1.2-6db33f)](https://spring.io/projects/spring-boot)
+[![Spring Security](https://img.shields.io/badge/Spring%20Security-7.1.2-6DB33F?logo=springsecurity&logoColor=white)](https://spring.io/projects/spring-security)
+[![Maven 3.10.0](https://img.shields.io/badge/Maven-3.10.0-C71A36)](https://maven.apache.org/)
 [![Apache 2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
-[English](README.md)
+简体中文 | [English](README.md)
 
 这是一个使用 Spring Security OAuth2 Client 的服务端渲染社交登录示例，支持 GitHub、Google、Facebook 和 Apple。你可以按需配置其中任意提供方。首页只显示同时配置了 Client ID 和 Secret 的提供方。
 
